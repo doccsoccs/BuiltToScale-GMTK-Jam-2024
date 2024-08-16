@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://h7xqe1wajjf0"]
+
+[node name="ContextMap" type="Node2D"]
+scale = Vector2(4, 4)
+
+[node name="0" type="RayCast2D" parent="."]
+target_position = Vector2(50, 0)
+collision_mask = 13
+
+[node name="1" type="RayCast2D" parent="."]
+exclude_parent = false
+target_position = Vector2(35, -35)
+
+[node name="2" type="RayCast2D" parent="."]
+target_position = Vector2(0, -50)
+
+[node name="3" type="RayCast2D" parent="."]
+target_position = Vector2(-35, -35)
+
+[node name="4" type="RayCast2D" parent="."]
+target_position = Vector2(-50, 0)
+
+[node name="5" type="RayCast2D" parent="."]
+target_position = Vector2(-35, 35)
+
+[node name="6" type="RayCast2D" parent="."]
+
+[node name="7" type="RayCast2D" parent="."]
+target_position = Vector2(35, 35)

@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://csqa2ww8xqtqn"]
+
+[ext_resource type="PackedScene" uid="uid://cyy2r2inecrk2" path="res://Character/player.tscn" id="1_os0wr"]
+[ext_resource type="Texture2D" uid="uid://c38adi8smth2b" path="res://test/Sprite-0001.png" id="2_bhwl8"]
+[ext_resource type="PackedScene" uid="uid://d667cqbfcb0v" path="res://WorldObjects/ice_wall.tscn" id="3_n2ses"]
+[ext_resource type="Script" path="res://Enemies/EnemyManager.gd" id="4_3p1ra"]
+[ext_resource type="PackedScene" uid="uid://omwwcyio2n5p" path="res://Enemies/wisp_enemy.tscn" id="4_7ksr6"]
+
+[node name="World" type="Node2D"]
+
+[node name="maptest" type="Sprite2D" parent="."]
+modulate = Color(0.14902, 0.14902, 0.14902, 1)
+position = Vector2(12, 1)
+scale = Vector2(5, 6)
+texture = ExtResource("2_bhwl8")
+
+[node name="Player" parent="." instance=ExtResource("1_os0wr")]
+position = Vector2(-499, 370)
+
+[node name="IceWall" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(-1089, -307)
+rotation = -0.958186
+
+[node name="IceWall3" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(695, -417)
+
+[node name="IceWall2" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(627, 508)
+rotation = 0.71733
+
+[node name="EnemyManager" type="Node" parent="."]
+script = ExtResource("4_3p1ra")
+
+[node name="WispEnemy" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(-268, -486)
+
+[node name="WispEnemy2" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(957, 162)
+
+[node name="WispEnemy3" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(1203, -537)

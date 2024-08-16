@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://d667cqbfcb0v"]
+
+[ext_resource type="Script" path="res://WorldObjects/IceWall.gd" id="1_j32p2"]
+[ext_resource type="Texture2D" uid="uid://dapsc4h262tgs" path="res://test/square.png" id="2_gbl7r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6uel8"]
+size = Vector2(541.5, 154)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uaqd3"]
+size = Vector2(513, 128)
+
+[node name="IceWall" type="CharacterBody2D"]
+collision_layer = 9
+collision_mask = 9
+motion_mode = 1
+script = ExtResource("1_j32p2")
+
+[node name="SpriteComponent" type="Sprite2D" parent="."]
+scale = Vector2(4, 1)
+texture = ExtResource("2_gbl7r")
+
+[node name="ProjectileModeHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 13
+monitoring = false
+monitorable = false
+
+[node name="ProjectileCollisionComponent" type="CollisionShape2D" parent="ProjectileModeHitbox"]
+shape = SubResource("RectangleShape2D_6uel8")
+debug_color = Color(0.647059, 0.392157, 0.870588, 0.419608)
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uaqd3")
+
+[connection signal="body_entered" from="ProjectileModeHitbox" to="." method="_on_kicked_icewall_enter_body"]

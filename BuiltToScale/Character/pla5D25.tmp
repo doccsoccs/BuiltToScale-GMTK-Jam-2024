@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyy2r2inecrk2"]
+
+[ext_resource type="Script" path="res://Character/player.gd" id="1_mfy42"]
+[ext_resource type="Texture2D" uid="uid://dapsc4h262tgs" path="res://test/square.png" id="2_fdr2c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ke7r8"]
+size = Vector2(100, 100)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_mfy42")
+
+[node name="CameraComponent" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ke7r8")
+
+[node name="SpriteComponent" type="Sprite2D" parent="."]
+texture = ExtResource("2_fdr2c")

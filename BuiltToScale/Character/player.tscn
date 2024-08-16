@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyy2r2inecrk2"]
+
+[ext_resource type="Script" path="res://Character/player.gd" id="1_mfy42"]
+[ext_resource type="Texture2D" uid="uid://dapsc4h262tgs" path="res://test/square.png" id="2_fdr2c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_67kfy"]
+radius = 240.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blcla"]
+size = Vector2(107, 167)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ke7r8"]
+size = Vector2(124, 123)
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
+collision_mask = 13
+motion_mode = 1
+script = ExtResource("1_mfy42")
+
+[node name="CameraComponent" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+
+[node name="SpriteComponent" type="Sprite2D" parent="."]
+texture = ExtResource("2_fdr2c")
+
+[node name="BurnRadius" type="Node2D" parent="."]
+visible = false
+
+[node name="BurnRadiusHitbox" type="Area2D" parent="BurnRadius"]
+
+[node name="BurnCollision" type="CollisionShape2D" parent="BurnRadius/BurnRadiusHitbox"]
+shape = SubResource("CircleShape2D_67kfy")
+debug_color = Color(0.733333, 0.466667, 0.207843, 0.419608)
+
+[node name="Kick" type="Node2D" parent="."]
+visible = false
+
+[node name="KickSprite" type="Sprite2D" parent="Kick"]
+position = Vector2(118, 0)
+scale = Vector2(0.515625, 0.570313)
+texture = ExtResource("2_fdr2c")
+
+[node name="KickHitbox" type="Area2D" parent="Kick"]
+collision_layer = 0
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="KickCollision" type="CollisionShape2D" parent="Kick/KickHitbox"]
+position = Vector2(106.5, 0)
+shape = SubResource("RectangleShape2D_blcla")
+debug_color = Color(0, 0.615686, 0.6, 0.419608)
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ke7r8")
+debug_color = Color(0.909804, 0.247059, 0.415686, 0.419608)
+
+[connection signal="body_entered" from="Kick/KickHitbox" to="." method="_on_kick_hitbox_body_entered"]

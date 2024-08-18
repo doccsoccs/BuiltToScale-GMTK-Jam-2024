@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://ceff546dgrnfb"]
+
+[ext_resource type="Texture2D" uid="uid://cyluyry40msw3" path="res://Sprites/coal_ui_empty.png" id="1_8qate"]
+[ext_resource type="Script" path="res://Character/camera_component.gd" id="1_kl0am"]
+[ext_resource type="Texture2D" uid="uid://bon1fsg1rxmqn" path="res://Sprites/embers.png" id="2_ss47o"]
+[ext_resource type="Texture2D" uid="uid://btwmo3t1wbh76" path="res://Sprites/uisizewithdropshadow.png" id="4_wrked"]
+
+[sub_resource type="Curve" id="Curve_b2v3x"]
+_data = [Vector2(0.16, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5u00r"]
+curve = SubResource("Curve_b2v3x")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6hpbk"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 220.0
+initial_velocity_max = 314.83
+gravity = Vector3(0, 98, 0)
+scale_min = 0.7
+scale_curve = SubResource("CurveTexture_5u00r")
+
+[node name="CameraComponent" type="Camera2D"]
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("1_kl0am")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CoalUiEmpty" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(67, 64.335)
+scale = Vector2(2, 2)
+texture = ExtResource("1_8qate")
+
+[node name="CoalUiEmpty2" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(167, 64.335)
+scale = Vector2(2, 2)
+texture = ExtResource("1_8qate")
+
+[node name="CoalUiEmpty3" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(267, 64.335)
+scale = Vector2(2, 2)
+texture = ExtResource("1_8qate")
+
+[node name="CoalUiEmpty4" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(367, 64.335)
+scale = Vector2(2, 2)
+texture = ExtResource("1_8qate")
+
+[node name="ParticleCanvas" type="CanvasLayer" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParticleCanvas"]
+position = Vector2(67, 64.335)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_6hpbk")
+texture = ExtResource("2_ss47o")
+one_shot = true
+explosiveness = 0.98
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="ParticleCanvas"]
+position = Vector2(167, 64.335)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_6hpbk")
+texture = ExtResource("2_ss47o")
+one_shot = true
+explosiveness = 0.98
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="ParticleCanvas"]
+position = Vector2(267, 64.335)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_6hpbk")
+texture = ExtResource("2_ss47o")
+one_shot = true
+explosiveness = 0.98
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="ParticleCanvas"]
+position = Vector2(367, 64.335)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_6hpbk")
+texture = ExtResource("2_ss47o")
+one_shot = true
+explosiveness = 0.98
+
+[node name="SizeUICanvas" type="CanvasLayer" parent="."]
+
+[node name="Uisizewithdropshadow" type="Sprite2D" parent="SizeUICanvas"]
+position = Vector2(485, 1006)
+texture = ExtResource("4_wrked")

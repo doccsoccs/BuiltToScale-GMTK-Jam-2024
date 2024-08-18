@@ -10,32 +10,56 @@
 
 [node name="maptest" type="Sprite2D" parent="."]
 modulate = Color(0.14902, 0.14902, 0.14902, 1)
-position = Vector2(12, 1)
+z_index = -2
+position = Vector2(153, 354)
 scale = Vector2(5, 6)
 texture = ExtResource("2_bhwl8")
 
-[node name="Player" parent="." instance=ExtResource("1_os0wr")]
-position = Vector2(-499, 370)
-
 [node name="IceWall" parent="." instance=ExtResource("3_n2ses")]
-position = Vector2(-1089, -307)
-rotation = -0.958186
-
-[node name="IceWall3" parent="." instance=ExtResource("3_n2ses")]
-position = Vector2(695, -417)
+position = Vector2(-374, 664)
 
 [node name="IceWall2" parent="." instance=ExtResource("3_n2ses")]
-position = Vector2(627, 508)
-rotation = 0.71733
+position = Vector2(-1037, 172)
+
+[node name="IceWall3" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(-552, -605)
+
+[node name="IceWall4" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(1137, -213)
+
+[node name="IceWall5" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(1315, 1091)
+
+[node name="IceWall6" parent="." instance=ExtResource("3_n2ses")]
+position = Vector2(-1443, 1340)
+
+[node name="Player" parent="." instance=ExtResource("1_os0wr")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(270, 667)
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("4_3p1ra")
 
 [node name="WispEnemy" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
-position = Vector2(-268, -486)
+position = Vector2(-1183, -649)
 
 [node name="WispEnemy2" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
-position = Vector2(957, 162)
+position = Vector2(-492, -1020)
 
 [node name="WispEnemy3" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
-position = Vector2(1203, -537)
+position = Vector2(363, -870)
+
+[node name="WispEnemy4" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(1190, -934)
+
+[node name="WispEnemy5" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(769, -1169)
+
+[node name="WispEnemy6" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(-1875, -299)
+
+[node name="WispEnemy7" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(-1832, -919)
+
+[node name="WispEnemy8" parent="EnemyManager" instance=ExtResource("4_7ksr6")]
+position = Vector2(-1297, -1161)

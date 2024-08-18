@@ -1,13 +1,192 @@
-[gd_scene load_steps=5 format=3 uid="uid://d667cqbfcb0v"]
+[gd_scene load_steps=15 format=3 uid="uid://d667cqbfcb0v"]
 
 [ext_resource type="Script" path="res://WorldObjects/IceWall.gd" id="1_j32p2"]
-[ext_resource type="Texture2D" uid="uid://dapsc4h262tgs" path="res://test/square.png" id="2_gbl7r"]
+[ext_resource type="Texture2D" uid="uid://bsufy07mxss8a" path="res://Sprites/ice.png" id="2_1t1oi"]
+[ext_resource type="Texture2D" uid="uid://b6pdy1yleun1j" path="res://Sprites/waterpuddle.png" id="2_ctnw3"]
+[ext_resource type="Texture2D" uid="uid://ceg3e0qcuc8e3" path="res://Sprites/meltingparticle.png" id="3_ab1tj"]
+[ext_resource type="Texture2D" uid="uid://t7bi5ngsg3vf" path="res://Sprites/enemydeathparticle.png" id="5_nv6gg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6uel8"]
-size = Vector2(541.5, 154)
+size = Vector2(440, 440)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uaqd3"]
-size = Vector2(513, 128)
+size = Vector2(412, 412)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wn0ak"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -100, 0)
+emission_shape = 3
+emission_box_extents = Vector3(150, 80, 1)
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 3.0
+
+[sub_resource type="Curve" id="Curve_pqs4r"]
+_data = [Vector2(0.72, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.00582, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5db4u"]
+curve = SubResource("Curve_pqs4r")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uejil"]
+particle_flag_disable_z = true
+angle_min = 10.0
+angle_max = 170.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 700.0
+angular_velocity_min = 236.52
+angular_velocity_max = 430.68
+gravity = Vector3(0, 500, 0)
+scale_curve = SubResource("CurveTexture_5db4u")
+
+[sub_resource type="Animation" id="Animation_e22sl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PuddleSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_ctnw3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PuddleSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PuddleSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PuddleSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CollisionComponent:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_j7qo4"]
+resource_name = "puddle"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PuddleSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_ctnw3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PuddleSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PuddleSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 1.5, 1.6, 1.7, 1.8, 1.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"destroy"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PuddleSprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CollisionComponent:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i71pv"]
+_data = {
+"RESET": SubResource("Animation_e22sl"),
+"puddle": SubResource("Animation_j7qo4")
+}
 
 [node name="IceWall" type="CharacterBody2D"]
 collision_layer = 9
@@ -15,11 +194,18 @@ collision_mask = 9
 motion_mode = 1
 script = ExtResource("1_j32p2")
 
+[node name="PuddleSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, 163)
+scale = Vector2(8, 8)
+texture = ExtResource("2_ctnw3")
+
 [node name="SpriteComponent" type="Sprite2D" parent="."]
-scale = Vector2(4, 1)
-texture = ExtResource("2_gbl7r")
+scale = Vector2(4, 4)
+texture = ExtResource("2_1t1oi")
 
 [node name="ProjectileModeHitbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 13
 monitoring = false
@@ -30,6 +216,30 @@ shape = SubResource("RectangleShape2D_6uel8")
 debug_color = Color(0.647059, 0.392157, 0.870588, 0.419608)
 
 [node name="CollisionComponent" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_uaqd3")
+
+[node name="MeltParticles" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_wn0ak")
+texture = ExtResource("3_ab1tj")
+lifetime = 2.0
+preprocess = 3.0
+speed_scale = 1.3
+local_coords = true
+
+[node name="IceShards" type="GPUParticles2D" parent="."]
+position = Vector2(0, -10)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_uejil")
+texture = ExtResource("5_nv6gg")
+one_shot = true
+speed_scale = 1.5
+explosiveness = 0.98
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i71pv")
+}
 
 [connection signal="body_entered" from="ProjectileModeHitbox" to="." method="_on_kicked_icewall_enter_body"]

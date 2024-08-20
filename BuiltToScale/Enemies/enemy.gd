@@ -62,6 +62,8 @@ var rng = RandomNumberGenerator.new()
 # Drops
 @export var coal_scene : PackedScene
 
+@export var boss: bool = false
+
 func _ready():
 	player_ref = get_tree().get_first_node_in_group("Player")
 	
@@ -74,7 +76,8 @@ func _ready():
 	prev_health = health
 	knockback_speed = kbspeed_size_array[player_ref.size]
 	
-	spawn_point = get_parent().get_parent().spawn_pos
+	if !boss:
+		spawn_point = get_parent().get_parent().spawn_pos
 
 func _process(delta):
 	# Can Only Damage Player by colliding with them every X seconds

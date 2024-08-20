@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://csqa2ww8xqtqn"]
+[gd_scene load_steps=14 format=3 uid="uid://csqa2ww8xqtqn"]
 
 [ext_resource type="Texture2D" uid="uid://ca385oponpxpr" path="res://Sprites/tilemap.png" id="1_nimtd"]
 [ext_resource type="PackedScene" uid="uid://cyy2r2inecrk2" path="res://Character/player.tscn" id="1_os0wr"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://omwwcyio2n5p" path="res://Enemies/wisp_enemy.tscn" id="7_cwtyo"]
 [ext_resource type="PackedScene" uid="uid://bhpjxbv3k4kni" path="res://Enemies/iceworm.tscn" id="7_t0n4w"]
 [ext_resource type="PackedScene" uid="uid://bvf51nkmmq1l" path="res://Scenes/options_ui.tscn" id="9_nu7ss"]
+[ext_resource type="PackedScene" uid="uid://bqhcgnj4frqjy" path="res://Enemies/boss.tscn" id="10_hrc62"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s3jig"]
 texture = ExtResource("1_nimtd")
@@ -79,6 +80,9 @@ sources/0 = SubResource("TileSetAtlasSource_s3jig")
 [node name="World" type="Node2D"]
 script = ExtResource("1_ub6iw")
 
+[node name="Boss" parent="." instance=ExtResource("10_hrc62")]
+position = Vector2(250, -2638)
+
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
 tile_set = SubResource("TileSet_5os4v")
@@ -88,7 +92,7 @@ layer_0/tile_data = PackedInt32Array(-2818119, 65536, 1, -2752583, 65536, 2, -28
 
 [node name="Player" parent="." instance=ExtResource("1_os0wr")]
 modulate = Color(1.5, 1.5, 1.5, 1)
-position = Vector2(432, 1630)
+position = Vector2(318, -1599)
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("4_3p1ra")

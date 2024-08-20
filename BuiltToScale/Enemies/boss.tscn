@@ -1,0 +1,662 @@
+[gd_scene load_steps=44 format=3 uid="uid://bqhcgnj4frqjy"]
+
+[ext_resource type="Script" path="res://Enemies/boss.gd" id="1_5yw7x"]
+[ext_resource type="Texture2D" uid="uid://cq8olyfo5mifu" path="res://Sprites/greg_sigil.png" id="1_666hb"]
+[ext_resource type="Texture2D" uid="uid://ci4423wwwe2v" path="res://Sprites/greg.png" id="1_lcbmt"]
+[ext_resource type="Texture2D" uid="uid://da3bqbiof140s" path="res://Sprites/greg_head.png" id="2_p3hv2"]
+[ext_resource type="Texture2D" uid="uid://b6pdy1yleun1j" path="res://Sprites/waterpuddle.png" id="2_s4dki"]
+[ext_resource type="Texture2D" uid="uid://bxvoxrffcws2a" path="res://Sprites/greg_headsink.png" id="3_erv85"]
+[ext_resource type="Script" path="res://Enemies/enemy.gd" id="4_6aqa4"]
+[ext_resource type="Texture2D" uid="uid://7jrd645tlx3y" path="res://Sprites/greg_hand.png" id="4_xm6ef"]
+[ext_resource type="AudioStream" uid="uid://c1p4lnvcby5w5" path="res://Audio/SFX/enemy_damaged.wav" id="6_g15aq"]
+[ext_resource type="PackedScene" uid="uid://dd204kqh5fn5k" path="res://Character/coal.tscn" id="7_28181"]
+[ext_resource type="AudioStream" uid="uid://b7xser5fkysiv" path="res://Audio/SFX/enemy_hit_no_damage.wav" id="7_g3ae3"]
+[ext_resource type="AudioStream" uid="uid://cm33t5oxmfggu" path="res://Audio/SFX/splash_hit.wav" id="8_w3q18"]
+[ext_resource type="AudioStream" uid="uid://c877gmnfbbyie" path="res://Audio/SFX/splash.wav" id="9_lfouh"]
+[ext_resource type="Script" path="res://Enemies/boss_behavior.gd" id="9_rorl3"]
+[ext_resource type="Texture2D" uid="uid://t7bi5ngsg3vf" path="res://Sprites/enemydeathparticle.png" id="13_5ejai"]
+[ext_resource type="PackedScene" uid="uid://h7xqe1wajjf0" path="res://Enemies/context_map.tscn" id="14_yi0nh"]
+
+[sub_resource type="Animation" id="Animation_8tu8h"]
+resource_name = "bobbing"
+length = 2.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_lcbmt")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head/SpriteComponent:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+}
+
+[sub_resource type="Animation" id="Animation_6aopo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_lcbmt")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head/SpriteComponent:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_w1ame"]
+resource_name = "head_out"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_p3hv2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_y6blw"]
+resource_name = "head_in"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_erv85")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_ly056"]
+resource_name = "poke_out"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_lcbmt")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head/SpriteComponent:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+}
+
+[sub_resource type="Animation" id="Animation_yc8ag"]
+resource_name = "poke_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/SpriteComponent:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_lcbmt")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/SpriteComponent:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head/SpriteComponent:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pxnls"]
+_data = {
+"RESET": SubResource("Animation_6aopo"),
+"bobbing": SubResource("Animation_8tu8h"),
+"head_in": SubResource("Animation_y6blw"),
+"head_out": SubResource("Animation_w1ame"),
+"poke_in": SubResource("Animation_yc8ag"),
+"poke_out": SubResource("Animation_ly056")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ig8ls"]
+radius = 182.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_necfc"]
+radius = 235.0
+
+[sub_resource type="Animation" id="Animation_4c8d5"]
+resource_name = "hitrecover"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftArm/SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qdkcx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftArm/SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qfbix"]
+_data = {
+"RESET": SubResource("Animation_qdkcx"),
+"hitrecover": SubResource("Animation_4c8d5")
+}
+
+[sub_resource type="Curve" id="Curve_l54nm"]
+_data = [Vector2(0.72, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.00582, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qmwh0"]
+curve = SubResource("Curve_l54nm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x128f"]
+particle_flag_disable_z = true
+angle_min = 10.0
+angle_max = 170.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 500.0
+angular_velocity_min = 236.52
+angular_velocity_max = 430.68
+gravity = Vector3(0, 500, 0)
+scale_curve = SubResource("CurveTexture_qmwh0")
+
+[sub_resource type="Curve" id="Curve_sri1k"]
+_data = [Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pj5pm"]
+curve = SubResource("Curve_sri1k")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cwy7u"]
+particle_flag_disable_z = true
+angle_max = 180.0
+direction = Vector3(0, 0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_pj5pm")
+collision_mode = 2
+
+[sub_resource type="Animation" id="Animation_5y3gr"]
+resource_name = "puddle"
+length = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftArm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"die"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_glpmu"]
+_data = {
+"puddle": SubResource("Animation_5y3gr")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3srvc"]
+radius = 235.0
+
+[sub_resource type="Animation" id="Animation_vhj7u"]
+resource_name = "hitrecover"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j4awt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gj3jq"]
+_data = {
+"RESET": SubResource("Animation_j4awt"),
+"hitrecover": SubResource("Animation_vhj7u")
+}
+
+[sub_resource type="Animation" id="Animation_n5h8n"]
+resource_name = "puddle"
+length = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RightArm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"die"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y33pt"]
+_data = {
+"puddle": SubResource("Animation_n5h8n")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rb6tw"]
+
+[node name="Boss" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_5yw7x")
+
+[node name="Head" type="Node2D" parent="."]
+
+[node name="SpriteComponent" type="Sprite2D" parent="Head"]
+scale = Vector2(12, 12)
+texture = ExtResource("1_lcbmt")
+hframes = 22
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_pxnls")
+}
+
+[node name="LeftArmOrigin" type="Node2D" parent="."]
+position = Vector2(-600, 0)
+
+[node name="LArmJoint" type="Sprite2D" parent="LeftArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="LArmJoint2" type="Sprite2D" parent="LeftArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="LArmJoint3" type="Sprite2D" parent="LeftArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="LArmJoint4" type="Sprite2D" parent="LeftArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="LArmJoint5" type="Sprite2D" parent="LeftArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="RightArmOrigin" type="Node2D" parent="."]
+position = Vector2(600, 0)
+
+[node name="RArmJoint" type="Sprite2D" parent="RightArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="RArmJoint2" type="Sprite2D" parent="RightArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="RArmJoint3" type="Sprite2D" parent="RightArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="RArmJoint4" type="Sprite2D" parent="RightArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="RArmJoint5" type="Sprite2D" parent="RightArmOrigin"]
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("1_666hb")
+
+[node name="LeftArm" type="CharacterBody2D" parent="."]
+position = Vector2(-800, 0)
+collision_layer = 12
+collision_mask = 14
+motion_mode = 1
+script = ExtResource("4_6aqa4")
+max_health = 2
+size = 4
+kbspeed_size_array = Array[float]([0.0, 0.0, 0.0, 0.0, 0.0])
+min_wander_dist = 0.0
+coal_scene = ExtResource("7_28181")
+boss = true
+
+[node name="SpriteComponent" type="Sprite2D" parent="LeftArm"]
+scale = Vector2(8, 8)
+texture = ExtResource("4_xm6ef")
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="LeftArm"]
+position = Vector2(3, -44)
+shape = SubResource("CircleShape2D_ig8ls")
+
+[node name="DamageArea" type="Area2D" parent="LeftArm"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="DamageAreaCollisionBox" type="CollisionShape2D" parent="LeftArm/DamageArea"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_necfc")
+debug_color = Color(0.941176, 0.117647, 0.537255, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LeftArm"]
+
+[node name="HitRecoverAnim" type="AnimationPlayer" parent="LeftArm"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_qfbix")
+}
+
+[node name="Behavior" type="Node" parent="LeftArm"]
+script = ExtResource("9_rorl3")
+
+[node name="Damaged" type="AudioStreamPlayer" parent="LeftArm"]
+stream = ExtResource("6_g15aq")
+volume_db = -1.0
+bus = &"SFX"
+
+[node name="HitNoDamage" type="AudioStreamPlayer" parent="LeftArm"]
+stream = ExtResource("7_g3ae3")
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer" parent="LeftArm"]
+stream = ExtResource("8_w3q18")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="Melt" type="AudioStreamPlayer" parent="LeftArm"]
+stream = ExtResource("9_lfouh")
+volume_db = -20.0
+bus = &"SFX"
+
+[node name="DeathParticles" type="GPUParticles2D" parent="LeftArm"]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_x128f")
+texture = ExtResource("13_5ejai")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.98
+
+[node name="HitParticles" type="GPUParticles2D" parent="LeftArm"]
+scale = Vector2(0.5, 0.5)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_cwy7u")
+texture = ExtResource("13_5ejai")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[node name="ContextMap" parent="LeftArm" instance=ExtResource("14_yi0nh")]
+
+[node name="PuddleSprite" type="Sprite2D" parent="LeftArm"]
+visible = false
+z_index = -1
+position = Vector2(800, 73)
+texture = ExtResource("2_s4dki")
+hframes = 6
+
+[node name="PuddleAnimator" type="AnimationPlayer" parent="LeftArm"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_glpmu")
+}
+
+[node name="RightArm" type="CharacterBody2D" parent="."]
+position = Vector2(800, 0)
+collision_layer = 12
+collision_mask = 14
+motion_mode = 1
+script = ExtResource("4_6aqa4")
+coal_scene = ExtResource("7_28181")
+boss = true
+
+[node name="SpriteComponent" type="Sprite2D" parent="RightArm"]
+scale = Vector2(8, 8)
+texture = ExtResource("4_xm6ef")
+flip_h = true
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="RightArm"]
+position = Vector2(-3, -44)
+shape = SubResource("CircleShape2D_ig8ls")
+
+[node name="DamageArea" type="Area2D" parent="RightArm"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="DamageAreaCollisionBox" type="CollisionShape2D" parent="RightArm/DamageArea"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_3srvc")
+debug_color = Color(0, 0.631373, 0.478431, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RightArm"]
+
+[node name="HitRecoverAnim" type="AnimationPlayer" parent="RightArm"]
+libraries = {
+"": SubResource("AnimationLibrary_gj3jq")
+}
+
+[node name="Behavior" type="Node" parent="RightArm"]
+script = ExtResource("9_rorl3")
+
+[node name="Damaged" type="AudioStreamPlayer" parent="RightArm"]
+stream = ExtResource("6_g15aq")
+volume_db = -1.0
+bus = &"SFX"
+
+[node name="HitNoDamage" type="AudioStreamPlayer" parent="RightArm"]
+stream = ExtResource("7_g3ae3")
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer" parent="RightArm"]
+stream = ExtResource("8_w3q18")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="Melt" type="AudioStreamPlayer" parent="RightArm"]
+stream = ExtResource("9_lfouh")
+volume_db = -20.0
+bus = &"SFX"
+
+[node name="DeathParticles" type="GPUParticles2D" parent="RightArm"]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_x128f")
+texture = ExtResource("13_5ejai")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.98
+
+[node name="HitParticles" type="GPUParticles2D" parent="RightArm"]
+scale = Vector2(0.5, 0.5)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_cwy7u")
+texture = ExtResource("13_5ejai")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[node name="ContextMap" parent="RightArm" instance=ExtResource("14_yi0nh")]
+
+[node name="PuddleSprite" type="Sprite2D" parent="RightArm"]
+visible = false
+z_index = -1
+position = Vector2(800, 73)
+texture = ExtResource("2_s4dki")
+hframes = 6
+
+[node name="PuddleAnimator" type="AnimationPlayer" parent="RightArm"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_y33pt")
+}
+
+[node name="ignore" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rb6tw")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv63iroqu2mht"]
+
+[ext_resource type="Script" path="res://Scenes/Spawnpoint.gd" id="1_yw7dk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_api8x"]
+radius = 100.0
+
+[node name="Spawnpoint" type="Node2D"]
+script = ExtResource("1_yw7dk")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_api8x")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

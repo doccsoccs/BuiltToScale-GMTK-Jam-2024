@@ -5,6 +5,7 @@ extends Camera2D
 @onready var canvas = $CanvasLayer
 @onready var particle_canvas = $ParticleCanvas
 var ui_array : Array[Sprite2D]
+@onready var game_over_ui = $GameOverUI
 
 # Screen Shake
 @export var noise_shake_speed: float = 30.0 # How quickly to move through the noise
@@ -13,6 +14,9 @@ var ui_array : Array[Sprite2D]
 @export var noise_sway_strength: float = 10.0 # Multiply the returned value by these strengths
 @export var random_shake_strength: float = 20.0 # Starting range of possible noise offsets
 @export var shake_decay_rate: float = 5.0 # Multiplier for lerping shake strength to 0
+
+# Animation
+@onready var anim_player = $SizeUICanvas/AnimationPlayer
 
 enum ShakeType {
 	Random,
@@ -39,6 +43,9 @@ func _ready():
 	noise.frequency = 2
 
 func _process(delta):
+	# Size Text UI
+	update_animations()
+	
 	# Fade out screenshake
 	shake_strength = lerp(shake_strength, 0.0, shake_decay_rate * delta)
 	
@@ -91,3 +98,16 @@ func get_random_offset() -> Vector2:
 		rand.randf_range(-shake_strength, shake_strength),
 		rand.randf_range(-shake_strength, shake_strength)
 	)
+
+func update_animations():
+	match owner.size:
+		0:
+			anim_player.play("burningout")
+		1:
+			anim_player.play("lowflame")
+		2:
+			anim_player.play("onfire")
+		3:
+			anim_player.play("Blazing")
+		4:
+			anim_player.play("Inferno")

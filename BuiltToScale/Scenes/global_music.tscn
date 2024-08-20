@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://di0svrld6yt3t"]
+
+[ext_resource type="Script" path="res://Scenes/global_music.gd" id="1_5kxci"]
+[ext_resource type="AudioStream" uid="uid://dpnnh3fbxdbpd" path="res://Audio/Music/Rising Tide (faster).mp3" id="1_crryk"]
+[ext_resource type="AudioStream" uid="uid://1tmhl2lc0vu4" path="res://Audio/Music/Townie Loop.mp3" id="3_gx8h6"]
+
+[node name="GlobalMusic" type="Node"]
+script = ExtResource("1_5kxci")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_crryk")
+volume_db = -5.0
+bus = &"Music"
+
+[node name="GoblinTown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gx8h6")
+volume_db = -4.0

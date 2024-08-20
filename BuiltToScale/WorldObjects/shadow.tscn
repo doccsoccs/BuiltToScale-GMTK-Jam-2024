@@ -1,0 +1,163 @@
+[gd_scene load_steps=10 format=3 uid="uid://celcbwlgah3op"]
+
+[ext_resource type="Script" path="res://WorldObjects/shadow.gd" id="1_q3bhw"]
+[ext_resource type="Texture2D" uid="uid://voefqvnpv3gh" path="res://Sprites/shadow.png" id="2_hyusu"]
+[ext_resource type="PackedScene" uid="uid://d667cqbfcb0v" path="res://WorldObjects/ice_wall.tscn" id="2_kwejs"]
+[ext_resource type="PackedScene" uid="uid://inftdl1qw105" path="res://WorldObjects/lava_block.tscn" id="3_1xhyv"]
+[ext_resource type="AudioStream" uid="uid://hwlsurrp4uqs" path="res://Audio/SFX/blockfall.wav" id="5_1j4t2"]
+
+[sub_resource type="Animation" id="Animation_0glw7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteComponent:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteComponent:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CrushArea:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_j0op7"]
+resource_name = "fallingblock"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(4, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteComponent:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.0392157), Color(1, 1, 1, 0.588235)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"drop"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpriteComponent:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CrushArea:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3.9),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_plugg"]
+_data = {
+"RESET": SubResource("Animation_0glw7"),
+"fallingblock": SubResource("Animation_j0op7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1u2w"]
+size = Vector2(412, 412)
+
+[node name="Shadow" type="Node2D"]
+script = ExtResource("1_q3bhw")
+ice_block = ExtResource("2_kwejs")
+fire_block = ExtResource("3_1xhyv")
+base_cooldown_time = 5.1
+cooldown_range = 2.9
+
+[node name="SpriteComponent" type="Sprite2D" parent="."]
+texture = ExtResource("2_hyusu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_plugg")
+}
+
+[node name="CrushArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 14
+monitorable = false
+
+[node name="CollisionComponent" type="CollisionShape2D" parent="CrushArea"]
+shape = SubResource("RectangleShape2D_l1u2w")
+
+[node name="Blockfall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_1j4t2")
+volume_db = -20.0
+bus = &"SFX"
+
+[connection signal="body_entered" from="CrushArea" to="." method="_on_crush_area_body_entered"]

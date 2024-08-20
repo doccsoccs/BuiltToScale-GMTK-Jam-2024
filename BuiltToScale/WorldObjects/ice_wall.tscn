@@ -1,10 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://d667cqbfcb0v"]
+[gd_scene load_steps=19 format=3 uid="uid://d667cqbfcb0v"]
 
 [ext_resource type="Script" path="res://WorldObjects/IceWall.gd" id="1_j32p2"]
 [ext_resource type="Texture2D" uid="uid://bsufy07mxss8a" path="res://Sprites/ice.png" id="2_1t1oi"]
 [ext_resource type="Texture2D" uid="uid://b6pdy1yleun1j" path="res://Sprites/waterpuddle.png" id="2_ctnw3"]
 [ext_resource type="Texture2D" uid="uid://ceg3e0qcuc8e3" path="res://Sprites/meltingparticle.png" id="3_ab1tj"]
 [ext_resource type="Texture2D" uid="uid://t7bi5ngsg3vf" path="res://Sprites/enemydeathparticle.png" id="5_nv6gg"]
+[ext_resource type="AudioStream" uid="uid://l4l86fwifrto" path="res://Audio/SFX/iceblock_slide1.wav" id="6_0dy3y"]
+[ext_resource type="AudioStream" uid="uid://dtjng3t3umndc" path="res://Audio/SFX/iceblock_hit.wav" id="6_nbmfd"]
+[ext_resource type="AudioStream" uid="uid://c877gmnfbbyie" path="res://Audio/SFX/splash.wav" id="8_kyctj"]
+[ext_resource type="AudioStream" uid="uid://cmolpkrw6a677" path="res://Audio/SFX/iceblock_shatter.wav" id="9_76dtq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6uel8"]
 size = Vector2(440, 440)
@@ -196,6 +200,7 @@ script = ExtResource("1_j32p2")
 
 [node name="PuddleSprite" type="Sprite2D" parent="."]
 visible = false
+z_index = -1
 position = Vector2(0, 163)
 scale = Vector2(8, 8)
 texture = ExtResource("2_ctnw3")
@@ -242,4 +247,22 @@ libraries = {
 "": SubResource("AnimationLibrary_i71pv")
 }
 
-[connection signal="body_entered" from="ProjectileModeHitbox" to="." method="_on_kicked_icewall_enter_body"]
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_nbmfd")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Slide" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_0dy3y")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Splash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_kyctj")
+volume_db = -11.0
+bus = &"SFX"
+
+[node name="Shatter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_76dtq")
+volume_db = -10.0
+bus = &"SFX"

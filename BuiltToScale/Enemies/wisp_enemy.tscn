@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://omwwcyio2n5p"]
+[gd_scene load_steps=33 format=3 uid="uid://omwwcyio2n5p"]
 
 [ext_resource type="Script" path="res://Enemies/enemy.gd" id="1_4tnuy"]
 [ext_resource type="Texture2D" uid="uid://1y1filfy1d4f" path="res://Sprites/icesprite-floating.png" id="2_cvykr"]
@@ -9,15 +9,19 @@
 [ext_resource type="Script" path="res://Enemies/wisp_behavior.gd" id="4_e4gxi"]
 [ext_resource type="Texture2D" uid="uid://dqur8rha6ysxt" path="res://Sprites/icesprite-death.png" id="4_fvb7h"]
 [ext_resource type="Texture2D" uid="uid://t7bi5ngsg3vf" path="res://Sprites/enemydeathparticle.png" id="7_airw8"]
+[ext_resource type="AudioStream" uid="uid://c1p4lnvcby5w5" path="res://Audio/SFX/enemy_damaged.wav" id="10_50hxr"]
+[ext_resource type="AudioStream" uid="uid://c877gmnfbbyie" path="res://Audio/SFX/splash.wav" id="11_jbgb6"]
+[ext_resource type="AudioStream" uid="uid://cm33t5oxmfggu" path="res://Audio/SFX/splash_hit.wav" id="12_k3aeq"]
+[ext_resource type="AudioStream" uid="uid://b7xser5fkysiv" path="res://Audio/SFX/enemy_hit_no_damage.wav" id="12_tnno0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_shmig"]
-radius = 74.0
+radius = 61.0
 
 [sub_resource type="Curve" id="Curve_74fgr"]
 _data = [Vector2(0.72, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.00582, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_asha2"]
+[sub_resource type="CurveTexture" id="CurveTexture_qmwh0"]
 curve = SubResource("Curve_74fgr")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hagmj"]
@@ -30,13 +34,13 @@ initial_velocity_max = 500.0
 angular_velocity_min = 236.52
 angular_velocity_max = 430.68
 gravity = Vector3(0, 500, 0)
-scale_curve = SubResource("CurveTexture_asha2")
+scale_curve = SubResource("CurveTexture_qmwh0")
 
 [sub_resource type="Curve" id="Curve_ipjm0"]
 _data = [Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_57tqb"]
+[sub_resource type="CurveTexture" id="CurveTexture_pj5pm"]
 curve = SubResource("Curve_ipjm0")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5htso"]
@@ -48,7 +52,7 @@ initial_velocity_max = 1000.0
 gravity = Vector3(0, 0, 0)
 scale_min = 0.8
 scale_max = 0.8
-scale_curve = SubResource("CurveTexture_57tqb")
+scale_curve = SubResource("CurveTexture_pj5pm")
 collision_mode = 2
 
 [sub_resource type="Animation" id="Animation_7x3oa"]
@@ -100,6 +104,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DamageArea:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_0ebl1"]
@@ -166,6 +182,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("DamageArea:monitoring")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_c4x41"]
@@ -381,11 +409,52 @@ _data = {
 "puddle": SubResource("Animation_lsrc4")
 }
 
+[sub_resource type="Animation" id="Animation_x7fuw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0vmrv"]
+resource_name = "hitrecover"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteComponent:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1), Color(1, 1, 1, 0.313726), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aeejt"]
+_data = {
+"RESET": SubResource("Animation_x7fuw"),
+"hitrecover": SubResource("Animation_0vmrv")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ri5rn"]
+radius = 74.0068
+
 [node name="WispEnemy" type="CharacterBody2D"]
-collision_layer = 5
+collision_layer = 12
 collision_mask = 15
 motion_mode = 1
 script = ExtResource("1_4tnuy")
+min_wander_dist = 25.0
 coal_scene = ExtResource("2_eyyby")
 
 [node name="PuddleSprite" type="Sprite2D" parent="."]
@@ -401,12 +470,10 @@ texture = ExtResource("2_cvykr")
 hframes = 12
 
 [node name="CollisionComponent" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_shmig")
 debug_color = Color(0.984314, 0.654902, 0.764706, 0.419608)
 
 [node name="ContextMap" parent="." instance=ExtResource("3_p13c5")]
-visible = false
 
 [node name="Behavior" type="Node" parent="."]
 script = ExtResource("4_e4gxi")
@@ -437,3 +504,39 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_iar2v")
 }
+
+[node name="HitRecoverAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aeejt")
+}
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="DamageAreaCollisionBox" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("CircleShape2D_ri5rn")
+debug_color = Color(0.964706, 0, 0.486275, 0.419608)
+
+[node name="Damaged" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_50hxr")
+volume_db = -1.0
+bus = &"SFX"
+
+[node name="HitNoDamage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_tnno0")
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_k3aeq")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="Melt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_jbgb6")
+volume_db = -20.0
+bus = &"SFX"
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

@@ -1,9 +1,11 @@
 extends CharacterBody2D
 class_name IceWall
 
+var player: CharacterBody2D
+
 @export var size : int = 3
-const scales_array : Array[Vector2] = [Vector2(0.125, 0.125), Vector2(0.25,0.25), \
-									   Vector2(0.5,0.5), Vector2(1,1), Vector2(2,2)]
+const scales_array : Array[Vector2] = [Vector2(0.15, 0.15), Vector2(0.3,0.3), \
+									   Vector2(0.5,0.5), Vector2(1,1), Vector2(1.5,1.5)]
 var is_min_size : bool = false
 var alive : bool = true
 
@@ -11,7 +13,7 @@ var sliding : bool = false
 var kicked : bool = false
 
 var dir : Vector2 = Vector2.ZERO
-const base_speed : float = 1600.0
+const speed_size_array : Array[float] = [800.0,1400.0,1600.0,1800.0,3200.0]
 var speed : float = 0.0
 const friction : float = 15.0
 
@@ -28,8 +30,15 @@ var melt_speed : float = 0.02
 @onready var ice_sprite = $SpriteComponent
 @onready var anim_player = $AnimationPlayer
 
+# Audio
+@onready var audio_hit = $Hit
+@onready var audio_slide = $Slide
+@onready var audio_splash = $Splash
+@onready var audio_shatter = $Shatter
+
 func _ready():
 	scale = scales_array[size]
+	player = get_tree().get_first_node_in_group("Player")
 
 func _physics_process(delta):
 	if alive:
@@ -48,34 +57,34 @@ func _physics_process(delta):
 		
 		# Reset Movement Variables
 		velocity = Vector2.ZERO
-	
-	# Death Clause
-	elif !shatter_particles.emitting:
-		#destroy()
-		pass
 
 # Called when player kick area2d detects ice wall
 func kicked_by_player(kicked_direction : Vector2, player_size : int):
+	audio_hit.play()
+	
 	if player_size <= 2:
 		if player_size == size or player_size == size - 1 or player_size == size + 1:
-			speed = base_speed
+			speed = speed_size_array[player.size]
 			sliding = true
 			kicked = true
 			dir = kicked_direction
+			audio_slide.play()
 	
 	elif player_size == 3:
 		if size >= 1:
-			speed = base_speed
+			speed = speed_size_array[player.size]
 			sliding = true
 			kicked = true
 			dir = kicked_direction
+			audio_slide.play()
 	
 	elif player_size == 4:
 		if size >= 2:
-			speed = base_speed
+			speed = speed_size_array[player.size]
 			sliding = true
 			kicked = true
 			dir = kicked_direction
+			audio_slide.play()
 	
 	else:
 		alive = false
@@ -119,12 +128,15 @@ func melt():
 func melt_anim():
 	ice_sprite.visible = false
 	anim_player.play("puddle")
+	audio_splash.play()
 
 func set_size(new_size : int):
 	if new_size >= 0 and new_size <= 4:
 		size = new_size
 
 func shatter():
+	audio_shatter.play()
+	melt_particles.emitting = false
 	shatter_particles.emitting = true
 	collision_component.disabled = true
 	ice_sprite.visible = false
@@ -141,28 +153,43 @@ func collision_checks(delta):
 		
 		# Enemy Collisions
 		if body is Enemy and sliding:
-			
 			# Damage based on sizes
-			if body.size == size - 1:
-				body.health -= 2
-				speed /= 1.5
-			elif body.size <= size - 2:
+			if body.size == size or body.size - 1 == size: # Same size OR 1 Size less --> 1 damage
+				if body.can_be_damaged:
+					body.health -= 1
+					body.can_be_damaged = false
+				
+				if body.health <= 0:
+					speed /= 1.5
+				else:
+					dir = collision.get_normal() - (dir * -1)/2
+				
+			elif body.size + 1 == size: # 1 Size Bigger --> 2 damage
+				if body.can_be_damaged:
+					body.health -= 2
+					body.can_be_damaged = false
+				
+				if body.health <= 0:
+					speed /= 1.75
+				else:
+					dir = collision.get_normal() - (dir * -1)
+				
+			elif body.size + 2 <= size: # 2 Sizes Bigger --> Instant Death
 				body.init_die()
 				speed /= 1.2
-			else:
-				body.health -= 1
-				speed /= 1.75
+			else: # 2 Sizes Smaller
+				dir = collision.get_normal() - (dir * -1)/2
 			
 			# FOR ALL ENEMIES
 			body.hit_dir = dir
 			body.knockbacking = true
-			
 		
 		# Other Ice Block Collisions
-		if body is IceWall:
+		elif body is IceWall or body is LavaBlock:
 			# Change speed based on size of colliding block
 			# Same size, both bounce
 			if body.size == size:
+				audio_hit.play()
 				dir = collision.get_normal() - (dir * -1)/2  # update direction (BOUNCE)
 				speed /= 1.5
 				# Slide collided block
@@ -172,10 +199,14 @@ func collision_checks(delta):
 			
 			# 2 Sizes Smaller --> Destroy
 			elif body.size <= size - 2:
-				body.shatter()
+				if body is LavaBlock:
+					body.explode_anim()
+				elif body is IceWall:
+					body.shatter()
 			
 			# 1 Size Smaller --> Bounce small fast, Bounce big back slow
 			elif body.size == size - 1:
+				audio_hit.play()
 				dir = collision.get_normal() - (dir * -1)/2  # update direction (BOUNCE)
 				
 				# Slide collided block
@@ -185,4 +216,9 @@ func collision_checks(delta):
 				speed /= 1.8
 			
 			else:
+				audio_hit.play()
 				dir = collision.get_normal() - (dir * -1)/2  # update direction (BOUNCE)
+		
+		elif body is TileMap:
+			audio_hit.play()
+			dir = collision.get_normal() - (dir * -1)/2
